@@ -1,0 +1,38 @@
+@startuml 02_validate
+
+floating note: AT = access token, RT = refresh token
+
+start
+if (check AT / RT) then (OK)
+    if (AT / RT iat >= not_before::UUID) then (OK)
+        if (AT or RT) then (AT)
+            if (AT not in revoked::UUID) then (OK)
+                if (required roles == {}) then (Yes)
+                    : return OK;
+                    stop
+                else (No)
+                    if (required roles & AT roles != {}) then (OK)
+                        : return OK;
+                        stop
+                    else (NG)
+                        : raise error, code=403;
+                        stop
+                    endif
+                endif
+            else (NG)
+            endif
+        else (RT)
+            if (RT in refresh::UUID) then (OK)
+                : return OK;
+                stop
+            else (NG)
+            endif
+        endif
+    else (NG)
+    endif
+else (NG)
+endif
+: raise error, code=401;
+stop
+
+@enduml
