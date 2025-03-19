@@ -1,0 +1,16 @@
+@startuml 01_login
+
+floating note: AT = access token, RT = refresh token
+
+start
+if (check login) then (OK)
+    : generate AT, RT;
+    : add RT to refresh::UUID;
+    : set refresh::UUID expiration to TTL(RT);
+    : return AT, RT, code=200;
+else (NG)
+    : raise error, code=401;
+endif
+stop
+
+@enduml

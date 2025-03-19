@@ -1,0 +1,17 @@
+@startuml 03_refresh
+
+floating note: AT = access token, RT = refresh token
+
+start
+if (validate RT) then (OK)
+    : remove RT from refresh::UUID;
+    : generate new AT, new RT;
+    : add new RT to refresh::UUID;
+    : set refresh::UUID expiration to TTL(new RT);
+    : return new AT, new RT, code=200;
+else (NG)
+    : raise error, code=401;
+endif
+stop
+
+@enduml

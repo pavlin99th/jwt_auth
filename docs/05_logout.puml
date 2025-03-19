@@ -1,0 +1,18 @@
+@startuml 05_logout
+
+floating note: AT = access token, RT = refresh token
+
+start
+if (validate AT) then (OK)
+    : get RT from AT;
+    note: via "rjti"
+    : remove RT from refresh::UUID;
+    : add AT to revoked::UUID;
+    : set revoked::UUID expiration to TTL(AT);
+    : return code=204;
+else (NG)
+    : raise error, code=401;
+endif
+stop
+
+@enduml

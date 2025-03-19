@@ -1,0 +1,16 @@
+@startuml 04_logout_others
+
+floating note: AT = access token, RT = refresh token
+
+start
+if (validate AT) then (OK)
+    : refresh to get new AT, new RT;
+    : set not_before::UUID to new RT iat;
+    : set not_before::UUID expiration to TTL(new RT);
+    : return code=204;
+else (NG)
+    : raise error, code=401;
+endif
+stop
+
+@enduml
