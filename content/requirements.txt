@@ -1,0 +1,5 @@
+async-fastapi-jwt-auth==0.6.6
+fastapi==0.115.6
+fastapi-cli==0.0.7
+httpx==0.28.1
+pydantic==2.10.5
